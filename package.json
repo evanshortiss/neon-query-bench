@@ -1,5 +1,5 @@
 {
-  "name": "@evanshortiss/neon-query-bench",
+  "name": "neon-query-bench",
   "version": "0.1.0",
   "description": "A pre-packaged benchmark runner for Neon",
   "main": "build/index.js",
