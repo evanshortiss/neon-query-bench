@@ -1,0 +1,8 @@
+.env*
+!build/
+seed.ts
+tsconfig.json
+.env.example
+test/
+drizzle/
+drizzle.config.ts

@@ -1,0 +1,32 @@
+{
+  "name": "@evanshortiss/neon-query-bench",
+  "version": "0.1.0",
+  "description": "A pre-packaged benchmark runner for Neon",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "drizzle:generate": "drizzle-kit generate:pg",
+    "drizzle:push": "drizzle-kit push:pg",
+    "seed": "tsx -r dotenv/config seed.ts",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Evan Shortiss",
+  "license": "MIT",
+  "dependencies": {
+    "@neondatabase/serverless": "~0.6.0",
+    "drizzle-orm": "~0.29.1",
+    "env-var": "~7.4.1",
+    "@faker-js/faker": "~8.3.1"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "~18.2.2",
+    "@types/node": "~18.19.3",
+    "typescript": "~5.3.3",
+    "dotenv": "~16.3.1",
+    "drizzle-kit": "~0.20.6",
+    "pg": "~8.11.3",
+    "tsx": "~4.6.2"
+  }
+}
