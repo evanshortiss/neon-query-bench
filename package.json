@@ -1,6 +1,6 @@
 {
   "name": "neon-query-bench",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A pre-packaged benchmark runner for Neon",
   "main": "build/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "drizzle:push": "drizzle-kit push:pg",
     "seed": "tsx -r dotenv/config seed.ts",
     "prepublish": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tsx -r dotenv/config --test test/index.test.ts"
   },
   "keywords": [],
   "author": "Evan Shortiss",

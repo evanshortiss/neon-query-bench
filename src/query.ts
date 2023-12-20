@@ -3,10 +3,17 @@ import getDatabaseWrapper from "./db";
 import { User } from "./schema";
 import { faker } from "@faker-js/faker";
 
-export function getQueryRunner(env: NodeJS.ProcessEnv, count = 5) {
-  const config = getConfig(env);
+export type QueryRunnerResult = {
+  results: (typeof User.$inferSelect)[],
+  neonRegion: string,
+  queryTimes: { start: number, end: number }[]
+}
 
-  return async function performQueries(count = 5) {
+export function getQueryRunner(env: NodeJS.ProcessEnv) {
+  const config = getConfig(env);
+  const neonRegion = new URL(config.DATABASE_URL).hostname.split(/\.([^]*)/)[1];
+
+  return async function performQueries(count = 5): Promise<QueryRunnerResult> {
     const db = await getDatabaseWrapper(config.DATABASE_URL);
     const queryTimes: { start: number; end: number }[] = [];
     let results: (typeof User.$inferSelect)[] = [];
@@ -23,7 +30,7 @@ export function getQueryRunner(env: NodeJS.ProcessEnv, count = 5) {
       });
     }
 
-    return { results, queryTimes };
+    return { results, queryTimes, neonRegion };
   };
 }
 
