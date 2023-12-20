@@ -1,7 +1,6 @@
 import { getConfig } from "./config";
 import getDatabaseWrapper from "./db";
 import { User } from "./schema";
-import { faker } from "@faker-js/faker";
 
 export type QueryRunnerResult = {
   results: (typeof User.$inferSelect)[],
@@ -32,25 +31,4 @@ export function getQueryRunner(env: NodeJS.ProcessEnv) {
 
     return { results, queryTimes, neonRegion };
   };
-}
-
-export async function seed() {
-  const config = getConfig(process.env);
-  const db = getDatabaseWrapper(config.DATABASE_URL);
-
-  const data: (typeof User.$inferInsert)[] = [];
-
-  for (let i = 0; i < 50; i++) {
-    data.push({
-      username: faker.internet.userName(),
-      email: faker.internet.email(),
-      createdAt: faker.date.between({
-        from: new Date("01/01/2021"),
-        to: new Date("12/31/2023"),
-      }),
-    });
-  }
-
-  await db.delete(User);
-  await db.insert(User).values(data);
 }
