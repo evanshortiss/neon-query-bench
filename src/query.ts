@@ -5,7 +5,16 @@ import { ApplicationConfig, QueryRunnerResult } from "./types";
 export function getQueryRunner(config: ApplicationConfig) {
   const neonRegion = new URL(config.DATABASE_URL).hostname.split(/\.([^]*)/)[1];
 
-  return async function performQueries(count = 5): Promise<QueryRunnerResult> {
+  return async function performQueries(params: {
+    apiKey: string,
+    count: number
+  }): Promise<QueryRunnerResult> {
+    const { apiKey, count = 5 } = params
+
+    if (config.API_KEY && apiKey !== config.API_KEY) {
+      throw new Error('provided api key does not match configured API_KEY')
+    }
+
     const db = await getDatabaseWrapper(config.DATABASE_URL);
     const queryTimes: { start: number; end: number }[] = [];
     let results: (typeof User.$inferSelect)[] = [];

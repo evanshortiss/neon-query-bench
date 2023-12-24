@@ -3,6 +3,7 @@ import { User } from "./schema";
 export type EnvLike = Record<string, string|undefined>
 
 export type ApplicationConfig = {
+  API_KEY?: string;
   DATABASE_URL: string;
 
   // This is an endpoint where the benchmark results can be sent for storage

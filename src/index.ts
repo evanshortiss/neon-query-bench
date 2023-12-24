@@ -3,10 +3,10 @@ import { getPlatformUtils } from "./platform";
 import { getQueryRunner } from "./query";
 import { getRecorder } from "./record";
 
-export default function getBenchmarkInstance (env: Record<string, string|undefined>) {
-  const config = getConfig(env)
+export default function getBenchmarkInstance (params: Record<string, string|undefined>) {
+  const config = getConfig(params)
 
-  const platform = getPlatformUtils(env)
+  const platform = getPlatformUtils(params)
   const runner = getQueryRunner(config)
   const recorder = getRecorder(config)
 
