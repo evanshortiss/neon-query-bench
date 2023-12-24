@@ -1,13 +1,13 @@
 import { from } from "env-var";
-
-export type ApplicationConfig = {
-  DATABASE_URL: string;
-};
+import { ApplicationConfig } from "./types";
 
 export function getConfig(env: NodeJS.ProcessEnv): ApplicationConfig {
   const { get } = from(env);
 
   return {
     DATABASE_URL: get("DATABASE_URL").required().asUrlString(),
+    RECORDER_URL: get('RECORDER_URL').required().asUrlString(),
+    RECORDER_API_KEY: get('RECORDER_API_KEY').required().asString(),
+    RECORDER_REQUEST_TIMEOUT: get('RECORDER_REQUEST_TIMEOUT').default(10000).asIntPositive()    
   };
 }

@@ -1,15 +1,8 @@
-import { getConfig } from "./config";
 import getDatabaseWrapper from "./db";
 import { User } from "./schema";
+import { ApplicationConfig, QueryRunnerResult } from "./types";
 
-export type QueryRunnerResult = {
-  results: (typeof User.$inferSelect)[],
-  neonRegion: string,
-  queryTimes: { start: number, end: number }[]
-}
-
-export function getQueryRunner(env: NodeJS.ProcessEnv) {
-  const config = getConfig(env);
+export function getQueryRunner(config: ApplicationConfig) {
   const neonRegion = new URL(config.DATABASE_URL).hostname.split(/\.([^]*)/)[1];
 
   return async function performQueries(count = 5): Promise<QueryRunnerResult> {

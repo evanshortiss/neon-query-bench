@@ -1,13 +1,14 @@
 import { faker } from "@faker-js/faker";
-import { getConfig } from "./src/config";
 import getDatabaseWrapper from "./src/db";
 import { User } from "./src/schema";
+import { assert } from "console";
+import { get } from "env-var";
 
 async function seed() {
   console.log('Start seed operation...')
-  const config = getConfig(process.env);
-  const db = getDatabaseWrapper(config.DATABASE_URL);
 
+  const DATABASE_URL = get('DATABASE_URL').required().asUrlString()
+  const db = getDatabaseWrapper(DATABASE_URL);
   const data: (typeof User.$inferInsert)[] = [];
 
   for (let i = 0; i < 50; i++) {
