@@ -6,7 +6,7 @@ export function getQueryRunner(config: ApplicationConfig) {
   const neonRegion = new URL(config.DATABASE_URL).hostname.split(/\.([^]*)/)[1];
 
   return async function performQueries(params: {
-    apiKey: string,
+    apiKey?: string,
     count: number
   }): Promise<QueryRunnerResult> {
     const { apiKey, count = 5 } = params
