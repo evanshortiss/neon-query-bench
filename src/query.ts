@@ -8,8 +8,8 @@ export function getQueryRunner(config: ApplicationConfig) {
   return async function performQueries(params: {
     apiKey?: string,
     count: number
-  }): Promise<QueryRunnerResult> {
-    const { apiKey, count = 5 } = params
+  } = { count: 5 }): Promise<QueryRunnerResult> {
+    const { apiKey, count } = params
 
     if (config.API_KEY && apiKey !== config.API_KEY) {
       throw new Error('provided api key does not match configured API_KEY')
