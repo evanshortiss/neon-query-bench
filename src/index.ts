@@ -5,7 +5,6 @@ import { getRecorder } from "./record";
 
 export default function getBenchmarkInstance (params: Record<string, string|undefined>) {
   const config = getConfig(params)
-
   const platform = getPlatformUtils(params)
   const runner = getQueryRunner(config)
   const recorder = getRecorder(config)
@@ -14,3 +13,5 @@ export default function getBenchmarkInstance (params: Record<string, string|unde
     platform, runner, recorder
   }
 }
+
+export * from './types'
