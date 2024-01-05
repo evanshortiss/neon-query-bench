@@ -14,23 +14,34 @@ The following environment variables are required:
 ```js
 import { getBenchmarkInstance } from "neon-query-bench"
 
-const {
-  runner,
-  platform
-} = getBenchmarkInstance({
-  // Used to secure access to the runner
-  NQB_API_KEY: process.env.NQB_API_KEY,
-
-  // The database to run benchmark queries against
-  NQB_DATABASE_URL: process.env.NQB_DATABASE_URL
-})
+/**
+ * Pass the "env" object on Cloudfalre Workers or "process.env" in Node.js
+ * 
+ * NQB_DATABASE_URL must be set to a Neon database connection string.
+ * NQB_API_KEY can optionally be set to prevent unauthenticated queries.
+ */
+const { runner, platform } = getBenchmarkInstance(process.env)
 
 // Example endpoint to call if you're using express to expose
 // the runner as an HTTP endpoint
 app.get('/', (req, res) => {
   // Run 3 benchmark queries in series against the database
-  const result = await runner(req.get('x-api-key'), 3)
+  const {
+    // The Neon database region. Parsed from the NQB_DATABASE_URL
+    neonRegion,
+    // Pairs of start and end times for each query
+    queryTimes,
+    // Results contains the returned rows
+    results
+  } = await runner(req.get('x-api-key'), 3)
 
-  res.json(result)
+  // QueryRecordPayload is the structure expected by clients making the request
+  const response: QueryRecordPayload = {
+    queryRunnerResult: { neonRegion, queryTimes, results },
+    platformName: platform.getPlatformName(),
+    platformRegion: platform.getPlatformRegion()
+  }
+
+  res.json(response)
 })
 ```
