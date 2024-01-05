@@ -11,7 +11,7 @@ The following environment variables are required:
 * `NQB_DATABASE_URL` - Neon Postgres database connection string.
 * `NQB_API_KEY` - An API Key used to prevent unauthenticated calls.
 
-```js
+```ts
 import { getBenchmarkInstance } from "neon-query-bench"
 
 /**
