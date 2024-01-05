@@ -8,31 +8,29 @@ driver, and for packaging the results into a standard format for consumption.
 
 The following environment variables are required:
 
-* `DATABASE_URL` - Neon Postgres database connection string.
-* `RECORDER_URL` - A HTTPS URL to POST results to.
-* `RECORDER_API_KEY` - The API key required for authorisation to POST to `RECORDER_URL`.
-* `RECORDER_REQUEST_TIMEOUT` - (Default: `10000`) Number of milliseconds to wait before timing out the POST request to record results.
+* `NQB_DATABASE_URL` - Neon Postgres database connection string.
+* `NQB_API_KEY` - An API Key used to prevent unauthenticated calls.
 
-```ts
+```js
 import { getBenchmarkInstance } from "neon-query-bench"
 
 const {
   runner,
-  platform,
-  recorder
+  platform
 } = getBenchmarkInstance({
-  DATABASE_URL: process.env.DATABASE_URL,
-  RECORDER_URL: process.env.RECORDER_URL,
-  RECORDER_API_KEY: process.env.RECORDER_API_KEY
+  // Used to secure access to the runner
+  NQB_API_KEY: process.env.NQB_API_KEY,
+
+  // The database to run benchmark queries against
+  NQB_DATABASE_URL: process.env.NQB_DATABASE_URL
 })
 
-// Run 3 benchmark queries in series against the database
-const result = await runner(3)
+// Example endpoint to call if you're using express to expose
+// the runner as an HTTP endpoint
+app.get('/', (req, res) => {
+  // Run 3 benchmark queries in series against the database
+  const result = await runner(req.get('x-api-key'), 3)
 
-// POST benchmark results to an endpoint to record them
-await recorder({
-  platformName: platform.getPlatformName(),
-  platformRegion: platform.getPlatformRegion(),
-  queryRunnerResult: result
+  res.json(result)
 })
 ```

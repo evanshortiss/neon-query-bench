@@ -10,8 +10,7 @@ export function getPlatformUtils (env: EnvLike) {
       const global = globalThis as any
 
       if (typeof global?.process !== 'undefined' && typeof global.process.env !== 'undefined') {
-        // Checking for the existence of process.env to verify
-        // that this isn't a cloudflare worker
+        // Checking for the existence of process.env to verify that the runrime is not a cloudflare worker
         const {
           VERCEL_ENV, VERCEL_REGION,
           FLY_REGION, FLY_ALLOC_ID
@@ -35,8 +34,8 @@ export function getPlatformUtils (env: EnvLike) {
     },
     
     /**
-     * Returns the platform region string. Usually this is exposed as en
-     * environment variable on each platform.
+     * Returns the platform region string.
+     * Usually this is exposed as an environment variable on each platform.
      * @param {EnvLike} env 
      */
     getPlatformRegion (): string {

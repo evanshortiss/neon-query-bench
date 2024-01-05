@@ -1,5 +1,5 @@
 import { describe, it } from "node:test"
-import assert from "node:assert"
+import assert, { fail } from "node:assert"
 import { getPlatformUtils } from "../../src/platform"
 
 describe('getPlatformUtils', () => {
@@ -25,5 +25,17 @@ describe('getPlatformUtils', () => {
 
     assert(name === 'fly')
     assert(utils.getPlatformRegion() === 'bos')
+  })
+
+  it('should throw an error due to running on an unidentified platform', () => {
+    const utils = getPlatformUtils({})
+
+    try {
+      const name = utils.getPlatformName()
+      fail('an error should have been thrown')
+    } catch (e) {
+      assert(e instanceof Error)
+      assert(e.message.includes('unable to determine hosting platform'))
+    }
   })
 })

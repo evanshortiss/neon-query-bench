@@ -14,10 +14,4 @@ test('integration test (requires a database connection string)', async (t) => {
   assert(typeof result.neonRegion === 'string')
   assert(result.queryTimes.length === 3)
   assert(result.results.length !== 0)
-
-  recorder({
-    platformName: platform.getPlatformName(),
-    platformRegion: platform.getPlatformRegion(),
-    queryRunnerResult: result
-  })
 })
