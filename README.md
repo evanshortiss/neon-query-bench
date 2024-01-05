@@ -25,15 +25,16 @@ const { runner, platform } = getBenchmarkInstance(process.env)
 // Example endpoint to call if you're using express to expose
 // the runner as an HTTP endpoint
 app.get('/', (req, res) => {
-  // Run 3 benchmark queries in series against the database
+  // Run 5 (default value) benchmark queries in series against the database
   const {
-    // The Neon database region. Parsed from the NQB_DATABASE_URL
     neonRegion,
-    // Pairs of start and end times for each query
     queryTimes,
-    // Results contains the returned rows
     results
-  } = await runner(req.get('x-api-key'), 3)
+  } = await runner({
+    // Pass an apiKey value along, but only if required
+    apiKey: process.env.NQB_API_KEY ? req.get('x-api-key') : undefined,
+    count: 5
+  })
 
   // QueryRecordPayload is the structure expected by clients making the request
   const response: QueryRecordPayload = {
