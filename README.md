@@ -20,27 +20,39 @@ import { getBenchmarkInstance } from "neon-query-bench"
  * NQB_DATABASE_URL must be set to a Neon database connection string.
  * NQB_API_KEY can optionally be set to prevent unauthenticated queries.
  */
-const { runner, platform } = getBenchmarkInstance(process.env)
+const { runner, platform, version } = getBenchmarkInstance(process.env)
 
 // Example endpoint to call if you're using express to expose
 // the runner as an HTTP endpoint
 app.get('/', (req, res) => {
   // Run 5 (default value) benchmark queries in series against the database
   const {
+    // The region in which the Neon database tested against resides
     neonRegion,
-    queryTimes,
-    results
+    // Cold queries are the first set of queries executed. These can be
+    // considered "cold" since the function just started up and had no
+    // existing database connection established
+    queryTimesCold,
+    // Hot queries are a second set of queries executed. Generally speaking
+    // these queries will have better performance since the process is 
+    // "warm" and already has a database connection established
+    queryTimesHot
   } = await runner({
     // Pass an apiKey value along, but only if required
     apiKey: process.env.NQB_API_KEY ? req.get('x-api-key') : undefined,
+    // Number of queries to perform for both hot and cold runs
     count: 5
   })
 
   // QueryRecordPayload is the structure expected by clients making the request
+  // The "queryTimes" is the same as the "queryTimesCold", for backwards compat
   const response: QueryRecordPayload = {
-    queryRunnerResult: { neonRegion, queryTimes, results },
+    queryRunnerResult: { neonRegion, queryTimes, queryTimesCold, queryTimesHot },
+    // Platform details, e.g 'vercel' and 'iad1'
     platformName: platform.getPlatformName(),
-    platformRegion: platform.getPlatformRegion()
+    platformRegion: platform.getPlatformRegion(),
+    // The version of the neon-quer-bench module used in these tests
+    version
   }
 
   res.json(response)

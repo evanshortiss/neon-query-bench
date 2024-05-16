@@ -10,13 +10,15 @@ export type ApplicationConfig = {
 export type PlatformName = 'fly'|'vercel'|'cloudflare'
 
 export type QueryRunnerResult = {
-  results: (typeof User.$inferSelect)[],
   neonRegion: string,
   queryTimes: { start: number, end: number }[]
+  queryTimesCold: { start: number, end: number }[]
+  queryTimesHot: { start: number, end: number }[]
 }
 
 export type QueryRecordPayload = {
   platformName: PlatformName,
   platformRegion: string,
-  queryRunnerResult: QueryRunnerResult
+  queryRunnerResult: QueryRunnerResult,
+  version: string
 }

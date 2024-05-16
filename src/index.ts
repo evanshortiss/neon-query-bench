@@ -2,6 +2,7 @@ import { getConfig } from "./config";
 import { getPlatformUtils } from "./platform";
 import { getQueryRunner } from "./query";
 import { EnvLike } from "./types";
+const { version } = require('../package.json')
 
 export default function getBenchmarkInstance (env: EnvLike) {
   const config = getConfig(env)
@@ -15,7 +16,7 @@ export default function getBenchmarkInstance (env: EnvLike) {
 
 
   return {
-    platform, runner
+    platform, runner, version
   }
 }
 

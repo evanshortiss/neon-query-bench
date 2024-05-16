@@ -15,22 +15,30 @@ export function getQueryRunner(config: ApplicationConfig) {
       throw new Error('provided api key does not match configured API_KEY')
     }
 
-    const db = await getDatabaseWrapper(config.DATABASE_URL);
-    const queryTimes: { start: number; end: number }[] = [];
-    let results: (typeof User.$inferSelect)[] = [];
+    const db = getDatabaseWrapper(config.DATABASE_URL);
+    const queryTimesCold = await runBenchmark(db, count);
+    const queryTimesHot = await runBenchmark(db, count);
 
-    for (let i = 0; i < count; i++) {
-      const start = Date.now();
-      results = await db.query.User.findMany({
-        limit: 5,
-        orderBy: User.createdAt,
-      });
-      queryTimes.push({
-        start,
-        end: Date.now(),
-      });
-    }
-
-    return { results, queryTimes, neonRegion };
+    return { queryTimes: queryTimesCold, queryTimesCold, queryTimesHot, neonRegion };
   };
+}
+
+async function runBenchmark(db: ReturnType<typeof getDatabaseWrapper>, count: number) {
+  const queryTimes: { start: number; end: number }[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const start = Date.now();
+
+    await db.query.User.findMany({
+      limit: 5,
+      orderBy: User.createdAt,
+    });
+
+    queryTimes.push({
+      start,
+      end: Date.now(),
+    });
+  }
+
+  return queryTimes
 }
