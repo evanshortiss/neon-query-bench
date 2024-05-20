@@ -16,6 +16,9 @@ Note, if you're deploying the module on Railway you need to set the
 [regions page](https://docs.railway.app/reference/deployment-regions#region-options),
 since it's not automatically injected into a runtime environment variable.
 
+Here's a simple example that assumes you're exposing the runner via an express
+web server:
+
 ```ts
 import { getBenchmarkInstance } from "neon-query-bench"
 
@@ -43,8 +46,9 @@ app.get('/', (req, res) => {
     // "warm" and already has a database connection established
     queryTimesHot
   } = await runner({
-    // Pass an apiKey value along, but only if required
-    apiKey: process.env.NQB_API_KEY ? req.get('x-api-key') : undefined,
+    // Pass the api key supplied with the incoming request to the runner. This
+    // is only required if a key was passed when calling getBenchmarkInstance
+    apiKey: req.get('x-api-key'),
     // Number of queries to perform for both hot and cold runs
     count: 5
   })
@@ -56,7 +60,7 @@ app.get('/', (req, res) => {
     // Platform details, e.g 'vercel' and 'iad1'
     platformName: platform.getPlatformName(),
     platformRegion: platform.getPlatformRegion(),
-    // The version of the neon-quer-bench module used in these tests
+    // The version of the neon-query-bench module used in these tests
     version
   }
 
