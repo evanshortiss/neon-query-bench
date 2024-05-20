@@ -7,7 +7,10 @@ export type ApplicationConfig = {
   DATABASE_URL: string;
 };
 
-export type PlatformName = 'fly'|'vercel'|'cloudflare'
+export type PlatformName = 'fly'|'vercel'|'cloudflare'|'railway'
+
+// https://docs.railway.app/reference/deployment-regions
+export const RailwayRegionIds = ['us-west1','us-east4','europe-west4','asia-southeast1']
 
 export type QueryRunnerResult = {
   neonRegion: string,

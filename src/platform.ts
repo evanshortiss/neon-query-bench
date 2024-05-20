@@ -1,4 +1,4 @@
-import { EnvLike, PlatformName } from "./types"
+import { EnvLike, PlatformName, RailwayRegionIds } from "./types"
 
 export function getPlatformUtils (env: EnvLike) {
   return {
@@ -13,13 +13,16 @@ export function getPlatformUtils (env: EnvLike) {
         // Checking for the existence of process.env to verify that the runrime is not a cloudflare worker
         const {
           VERCEL_ENV, VERCEL_REGION,
-          FLY_REGION, FLY_ALLOC_ID
+          FLY_REGION, FLY_ALLOC_ID,
+          RAILWAY_PROJECT_NAME
         } = env
 
         if (VERCEL_ENV && VERCEL_REGION) {
           return 'vercel'
         } else if (FLY_REGION && FLY_ALLOC_ID) {
           return 'fly'
+        } else if (RAILWAY_PROJECT_NAME) {
+          return 'railway'
         } else {
           throw new Error('unable to determine hosting platform from environment')
         }
@@ -47,13 +50,28 @@ export function getPlatformUtils (env: EnvLike) {
 
       const regionEnvMap = {
         'vercel': 'VERCEL_REGION',
-        'fly': 'FLY_REGION'
+        'fly': 'FLY_REGION',
+        'railway': 'NQB_RAILWAY_REGION'
       }
 
-      const region = env[regionEnvMap[platformName]]
+      const targetVariable = regionEnvMap[platformName]
+
+      if (!env[targetVariable]) {
+        throw new Error(`failed to determine region for platform ${platformName}. the ${targetVariable} environment variable is not set`)
+      }
+
+      const region = env[targetVariable]
 
       if (!region) {
         throw new Error(`failed to determine region for platform ${platformName}`)
+      }
+
+      if (platformName === 'railway') {
+        if (RailwayRegionIds.includes(region)) {
+          return region
+        } else {
+          throw new Error(`invalid region "${region}" for platform railway. valid regions are: ${RailwayRegionIds.join(', ')}`)
+        }
       }
 
       return region
