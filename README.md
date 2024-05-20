@@ -11,6 +11,11 @@ The following environment variables are required:
 * `NQB_DATABASE_URL` - Neon Postgres database connection string.
 * `NQB_API_KEY` - An API Key used to prevent unauthenticated calls.
 
+Note, if you're deploying the module on Railway you need to set the
+`NQB_RAILWAY_REGION` to one of the values listed on their deployment
+[regions page](https://docs.railway.app/reference/deployment-regions#region-options),
+since it's not automatically injected into a runtime environment variable.
+
 ```ts
 import { getBenchmarkInstance } from "neon-query-bench"
 
