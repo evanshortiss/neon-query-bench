@@ -35,4 +35,4 @@ jobs:
           dockerfile: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: evanatneon/neon-query-bench:latest,evanatneon/neon-query-bench:${{ steps.get_nqb_version.outputs.version }
+          tags: evanatneon/neon-query-bench:latest,evanatneon/neon-query-bench:${{ steps.get_nqb_version.outputs.version }}
