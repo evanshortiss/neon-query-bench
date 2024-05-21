@@ -13,15 +13,12 @@ export type PlatformName = 'fly'|'vercel'|'cloudflare'|'railway'
 export const RailwayRegionIds = ['us-west1','us-east4','europe-west4','asia-southeast1']
 
 export type QueryRunnerResult = {
-  neonRegion: string,
   queryTimes: { start: number, end: number }[]
-  queryTimesCold: { start: number, end: number }[]
-  queryTimesHot: { start: number, end: number }[]
 }
 
-export type QueryRecordPayload = {
+export type QueryRunnerMetadata = {
   platformName: PlatformName,
   platformRegion: string,
-  queryRunnerResult: QueryRunnerResult,
+  neonRegion: string,
   version: string
 }

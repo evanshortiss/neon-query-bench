@@ -3,8 +3,6 @@ import { User } from "./schema";
 import { ApplicationConfig, QueryRunnerResult } from "./types";
 
 export function getQueryRunner(config: ApplicationConfig) {
-  const neonRegion = new URL(config.DATABASE_URL).hostname.split(/\.([^]*)/)[1];
-
   return async function performQueries(params?: {
     apiKey?: string,
     count?: number
@@ -16,10 +14,9 @@ export function getQueryRunner(config: ApplicationConfig) {
     }
 
     const db = getDatabaseWrapper(config.DATABASE_URL);
-    const queryTimesCold = await runBenchmark(db, count);
-    const queryTimesHot = await runBenchmark(db, count);
+    const queryTimes = await runBenchmark(db, count);
 
-    return { queryTimes: queryTimesCold, queryTimesCold, queryTimesHot, neonRegion };
+    return { queryTimes };
   };
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "neon-query-bench",
-  "version": "0.5.2",
+  "version": "0.5.3-beta.3",
   "description": "A pre-packaged benchmark runner for Neon",
   "main": "build/index.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "dotenv": "~16.3.1",
     "drizzle-kit": "~0.20.6",
     "pg": "~8.11.3",
+    "semver": "^7.6.2",
     "tsx": "~4.6.2",
     "typescript": "~5.3.3"
   }

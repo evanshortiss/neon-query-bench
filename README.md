@@ -28,23 +28,14 @@ import { getBenchmarkInstance } from "neon-query-bench"
  * NQB_DATABASE_URL must be set to a Neon database connection string.
  * NQB_API_KEY can optionally be set to prevent unauthenticated queries.
  */
-const { runner, platform, version } = getBenchmarkInstance(process.env)
+const { runner, platform, version, neonRegion } = getBenchmarkInstance(process.env)
 
 // Example endpoint to call if you're using express to expose
 // the runner as an HTTP endpoint
 app.get('/', (req, res) => {
   // Run 5 (default value) benchmark queries in series against the database
   const {
-    // The region in which the Neon database tested against resides
-    neonRegion,
-    // Cold queries are the first set of queries executed. These can be
-    // considered "cold" since the function just started up and had no
-    // existing database connection established
-    queryTimesCold,
-    // Hot queries are a second set of queries executed. Generally speaking
-    // these queries will have better performance since the process is 
-    // "warm" and already has a database connection established
-    queryTimesHot
+    queryTimes
   } = await runner({
     // Pass the api key supplied with the incoming request to the runner. This
     // is only required if a key was passed when calling getBenchmarkInstance
@@ -53,14 +44,15 @@ app.get('/', (req, res) => {
     count: 5
   })
 
-  // QueryRecordPayload is the structure expected by clients making the request
-  // The "queryTimes" is the same as the "queryTimesCold", for backwards compat
-  const response: QueryRecordPayload = {
-    queryRunnerResult: { neonRegion, queryTimes, queryTimesCold, queryTimesHot },
+  const response = {
+    // Array of start and end times for queries, {start: timestamp, end: timestamp}
+    queryTimes,
+    // Neon region, pulled from connection string, e.g 'us-west-2.aws.neon.tech'
+    neonRegion,
     // Platform details, e.g 'vercel' and 'iad1'
     platformName: platform.getPlatformName(),
     platformRegion: platform.getPlatformRegion(),
-    // The version of the neon-query-bench module used in these tests
+    // The version of the neon-query-bench module
     version
   }
 
