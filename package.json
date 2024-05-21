@@ -1,6 +1,6 @@
 {
   "name": "neon-query-bench",
-  "version": "0.6.0",
+  "version": "0.6.0-beta.0",
   "description": "A pre-packaged benchmark runner for Neon",
   "main": "build/index.js",
   "scripts": {
