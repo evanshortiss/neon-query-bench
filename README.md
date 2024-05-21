@@ -4,17 +4,58 @@ A utility for testing the latency required to perform a simple query against
 a Neon Postgres database using the [@neondatabase/serverless](https://github.com/neondatabase/serverless)
 driver, and for packaging the results into a standard format for consumption.
 
+## Setup
+
+1. Create a Project in the Neon region you'd like to test latency to.
+1. Clone, and run `npm install` from the root of this repository.
+1. Create a copy of the `.env.example` file named `.env`.
+1. Add the [connection string](https://neon.tech/docs/connect/connect-from-any-app) for your Neon database to the `.env`.
+1. Run `npm run drizzle:push` and `npm run seed`.
+
+You now have a Neon database that `neon-query-bench` can be run against.
+
 ## Usage
-
-The following environment variables are required:
-
-* `NQB_DATABASE_URL` - Neon Postgres database connection string.
-* `NQB_API_KEY` - An API Key used to prevent unauthenticated calls.
 
 Note, if you're deploying the module on Railway you need to set the
 `NQB_RAILWAY_REGION` to one of the values listed on their deployment
 [regions page](https://docs.railway.app/reference/deployment-regions#region-options),
 since it's not automatically injected into a runtime environment variable.
+
+### Via Container Image
+
+The easiest way to use `neon-query-bench` is to deploy a pre-built container. 
+
+The container deployment is supported on:
+
+* Railway
+* Fly
+
+The following environment variables are supported:
+
+* `NQB_DATABASE_URL` (required) - The database to test latency against.
+* `NQB_API_KEY` (optional) - An API key that can be use to prevent unauthenticated calls to `GET /benchmarks/results`.
+* `PORT` - Port to listen on.
+* `HOST` - Hostname to listen on.
+
+You can make a GET request to the server to discover the platform, platform
+region, version of neon-query-bench, region of the target Neon database, and
+run a benchmark.
+
+```bash
+# Get the platform, region, etc where this benchmark is running
+curl http://$HOSTNAME/benchmarks/metadata
+
+# Run a benchmark and return results
+curl http://$HOSTNAME/benchmarks/results
+```
+
+### Embed in a Node.js Server
+
+The following environment variables are required:
+
+* `NQB_DATABASE_URL` (required) - The database to test latency against.
+* `NQB_API_KEY` (optional) - An API key that can be use to prevent unauthenticated requests..
+
 
 Here's a simple example that assumes you're exposing the runner via an express
 web server:
