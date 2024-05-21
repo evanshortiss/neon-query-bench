@@ -17,18 +17,18 @@
   "author": "Evan Shortiss",
   "license": "MIT",
   "dependencies": {
-    "@neondatabase/serverless": "~0.6.0",
+    "@neondatabase/serverless": "^0.9.3",
     "drizzle-orm": "~0.29.1",
-    "env-var": "~7.4.1",
-    "@faker-js/faker": "~8.3.1"
+    "env-var": "~7.4.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "~8.3.1",
     "@tsconfig/node18": "~18.2.2",
     "@types/node": "~18.19.3",
-    "typescript": "~5.3.3",
     "dotenv": "~16.3.1",
     "drizzle-kit": "~0.20.6",
     "pg": "~8.11.3",
-    "tsx": "~4.6.2"
+    "tsx": "~4.6.2",
+    "typescript": "~5.3.3"
   }
 }
