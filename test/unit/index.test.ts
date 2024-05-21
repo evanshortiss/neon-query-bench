@@ -19,7 +19,7 @@ describe('module', () => {
       platform
     } = getBenchmarkInstance(env)
 
-    assert(version === '0.4.1')
+    assert(version === '0.5.2')
     assert(typeof runner === 'function')
     assert(typeof platform.getPlatformName() === 'string')
     assert(typeof platform.getPlatformRegion() === 'string')
