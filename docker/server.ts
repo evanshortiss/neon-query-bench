@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import nqb from '../'
+import nqb from 'neon-query-bench'
 
 const server = fastify({
   logger: {

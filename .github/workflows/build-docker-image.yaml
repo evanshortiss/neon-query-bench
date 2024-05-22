@@ -26,13 +26,13 @@ jobs:
 
       - name: Get neon-query-bench version
         id: get_nqb_version
-        run: echo "::set-output name=version::$(jq -e -r '.dependencies["neon-query-bench"] // empty | select(. != null)' package.json)"
+        run: |
+          echo "version=$(jq -e -r '.dependencies["neon-query-bench"] // empty | select(. != null)' docker/package.json)" >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: ./docker/
-          dockerfile: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: evanatneon/neon-query-bench:latest,evanatneon/neon-query-bench:${{ steps.get_nqb_version.outputs.version }}

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "build:image": "docker build --platform linux/arm64,linux/amd64 -t evanatneon/nqb-fly .",
+    "build:image": "docker build --platform linux/arm64,linux/amd64 -t evanatneon/neon-query-bench .",
     "build": "tsc",
     "dev": "nodemon -r dotenv/config server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
