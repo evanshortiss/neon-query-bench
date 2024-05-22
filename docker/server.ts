@@ -1,5 +1,5 @@
 import fastify from 'fastify';
-import nqb from 'neon-query-bench'
+import nqb, { QueryRunnerMetadata } from 'neon-query-bench'
 
 const server = fastify({
   logger: {
@@ -19,9 +19,9 @@ server.get('/benchmark/metadata', async () => {
   return {
     version,
     neonRegion,
-    platform: platform.getPlatformName(),
-    region: platform.getPlatformRegion()
-  }
+    platformName: platform.getPlatformName(),
+    platformRegion: platform.getPlatformRegion()
+  } as QueryRunnerMetadata
 })
 
 server.get<{ Querystring: { count: number }, Headers: { 'x-api-key'?: string } }>('/benchmark/results', async (req) => {
