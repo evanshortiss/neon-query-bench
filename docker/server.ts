@@ -27,7 +27,7 @@ server.get('/benchmark/metadata', async () => {
 server.get<{ Querystring: { count: number }, Headers: { 'x-api-key'?: string } }>('/benchmark/results', async (req) => {
   const { queryTimes } = await runner({
     apiKey: req.headers['x-api-key'] ? req.headers['x-api-key'].toString() : undefined,
-    count: req.query.count ? parseInt(req.query.count.toString()) : 5
+    count: req.query.count ? parseInt(req.query.count.toString()) : 1
   })
 
   return {
