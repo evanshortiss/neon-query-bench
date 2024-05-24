@@ -7,57 +7,56 @@ driver, and for packaging the results into a standard format for consumption.
 ## Setup
 
 1. Create a Project in the Neon region you'd like to test latency to.
-1. Clone, and run `npm install` from the root of this repository.
+1. Clone the repository and run `npm install` from the root of the project folder.
 1. Create a copy of the `.env.example` file named `.env`.
 1. Add the [connection string](https://neon.tech/docs/connect/connect-from-any-app) for your Neon database to the `.env`.
 1. Run `npm run drizzle:push` and `npm run seed`.
 
 You now have a Neon database that `neon-query-bench` can be run against.
 
-## Usage
+## Usage via Container Image
 
-Note, if you're deploying the module on Railway or DigitalOcean you need to
-manually set one of these variables:
+Note, if you're deploying the module on Railway or DigitalOcean, you need to set one of these variables manually:
 
 * `NQB_RAILWAY_REGION` - Use one of the values listed on Railway's [deployment regions page](https://docs.railway.app/reference/deployment-regions#region-options), e.g `us-west4`
-* `NQB_DO_REGION` - Use a a slug from Digital Ocean's [app platform availability page](https://docs.digitalocean.com/products/app-platform/details/availability/), e.g `nyc`.
-
-### Via Container Image
+* `NQB_DO_REGION` - Use a slug from Digital Ocean's [app platform availability page](https://docs.digitalocean.com/products/app-platform/details/availability/), e.g `nyc`.
 
 The easiest way to use `neon-query-bench` is to deploy a pre-built container. 
 
-The container deployment is supported on:
+The container deployment is tested on the following platforms:
 
 * Railway
 * Fly
+* DigitalOcean AppPlatform
 
 The following environment variables are supported:
 
 * `NQB_DATABASE_URL` (required) - The database to test latency against.
-* `NQB_API_KEY` (optional) - An API key that can be use to prevent unauthenticated calls to `GET /benchmarks/results`.
-* `PORT` - Port to listen on.
-* `HOST` - Hostname to listen on.
+* `NQB_API_KEY` (optional) - An API key that can be used to prevent unauthenticated calls to `GET /benchmarks/results`.
+* `PORT` - Port to listen on. Defaults to `3000`.
+* `HOST` - Hostname to listen on. Defaults to `0.0.0.0`.
 
 You can make a GET request to the server to discover the platform, platform
 region, version of neon-query-bench, region of the target Neon database, and
 run a benchmark.
 
 ```bash
-# Get the platform, region, etc where this benchmark is running
-curl http://$HOSTNAME/benchmarks/metadata
+# Get the platform, region, etc, where this benchmark is running
+curl http://$HOSTNAME/benchmark/metadata
 
 # Run a benchmark and return results
-curl http://$HOSTNAME/benchmarks/results
+curl http://$HOSTNAME/benchmark/results
 ```
 
-### Embed in a Node.js Server
+## Usage as a Node Module
 
 The following environment variables are required:
 
 * `NQB_DATABASE_URL` (required) - The database to test latency against.
 * `NQB_API_KEY` (optional) - An API key that can be use to prevent unauthenticated requests..
-
-
+* `NQB_RAILWAY_REGION` (if deploying on Railway) - Use one of the values listed on Railway's [deployment regions page](https://docs.railway.app/reference/deployment-regions#region-options), e.g `us-west4`
+* `NQB_DO_REGION` (if deploying on DigitalOcean) - Use a slug from Digital Ocean's [app platform availability page](https://docs.digitalocean.com/products/app-platform/details/availability/), e.g `nyc`.
+* 
 Here's a simple example that assumes you're exposing the runner via an express
 web server:
 
@@ -65,7 +64,7 @@ web server:
 import { getBenchmarkInstance } from "neon-query-bench"
 
 /**
- * Pass the "env" object on Cloudfalre Workers or "process.env" in Node.js
+ * Pass the "env" object on Cloudflare Workers or "process.env" in Node.js
  * 
  * NQB_DATABASE_URL must be set to a Neon database connection string.
  * NQB_API_KEY can optionally be set to prevent unauthenticated queries.
