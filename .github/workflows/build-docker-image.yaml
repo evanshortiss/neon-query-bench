@@ -29,6 +29,14 @@ jobs:
         run: |
           echo "version=$(jq -e -r '.dependencies["neon-query-bench"] // empty | select(. != null)' docker/package.json)" >> $GITHUB_OUTPUT
 
+      - name: Fail if neon-query-bench version allows ranges
+        run: |
+          if [[ "${{ steps.get_nqb_version.outputs.version }}" == *"~"* || "${{ steps.get_nqb_version.outputs.version }}" == *"^"* ]]; then
+            echo "Version contains invalid characters '~' or '^'"
+            exit 1
+          fi
+        shell: bash
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:

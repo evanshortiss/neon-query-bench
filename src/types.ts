@@ -1,5 +1,3 @@
-import { User } from "./schema";
-
 export type EnvLike = Record<string, string|undefined>
 
 export type ApplicationConfig = {
