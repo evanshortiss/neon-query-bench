@@ -7,7 +7,7 @@ driver, and for packaging the results into a standard format for consumption.
 ## Setup
 
 1. Create a Project in the Neon region you'd like to test latency to.
-1. Clone, and run `npm install` from the root of this repository.
+1. Clone the repository, and run `npm install` from the root of this repository.
 1. Create a copy of the `.env.example` file named `.env`.
 1. Add the [connection string](https://neon.tech/docs/connect/connect-from-any-app) for your Neon database to the `.env`.
 1. Run `npm run drizzle:push` and `npm run seed`.
@@ -26,10 +26,11 @@ manually set one of these variables:
 
 The easiest way to use `neon-query-bench` is to deploy a pre-built container. 
 
-The container deployment is supported on:
+The container deployment is tested on:
 
 * Railway
 * Fly
+* DigitalOcean AppPlatform
 
 The following environment variables are supported:
 
