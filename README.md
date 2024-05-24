@@ -20,7 +20,7 @@ Note, if you're deploying the module on Railway or DigitalOcean you need to
 manually set one of these variables:
 
 * `NQB_RAILWAY_REGION` - Use one of the values listed on Railway's [deployment regions page](https://docs.railway.app/reference/deployment-regions#region-options), e.g `us-west4`
-* `NQB_DO_REGION` - Use a a slug from Digital Ocean's [regional availability page](https://docs.digitalocean.com/platform/regional-availability/), e.g `nyc1`.
+* `NQB_DO_REGION` - Use a a slug from Digital Ocean's [app platform availability page](https://docs.digitalocean.com/products/app-platform/details/availability/), e.g `nyc`.
 
 ### Via Container Image
 

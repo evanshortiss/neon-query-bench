@@ -81,7 +81,7 @@ describe('getPlatformUtils', () => {
 
   describe('digitalocean', () => {
     it('should return the railway region', () => {
-      const NQB_DO_REGION = 'nyc1'
+      const NQB_DO_REGION = 'nyc'
       const utils = getPlatformUtils({
         NQB_DO_REGION
       })

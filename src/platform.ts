@@ -1,4 +1,4 @@
-import { DigitalOceanRegionIds, EnvLike, PlatformName, RailwayRegionIds } from "./types"
+import { DigitalOceanAppPlatformRegionIds, EnvLike, PlatformName, RailwayRegionIds } from "./types"
 
 export function getPlatformUtils (env: EnvLike) {
   return {
@@ -79,10 +79,10 @@ export function getPlatformUtils (env: EnvLike) {
       }
 
       if (platformName === 'digitalocean') {
-        if (DigitalOceanRegionIds.includes(region)) {
+        if (DigitalOceanAppPlatformRegionIds.includes(region)) {
           return region
         } else {
-          throw new Error(`invalid region "${region}" for platform digitalocean. valid regions are: ${DigitalOceanRegionIds.join(', ')}`)
+          throw new Error(`invalid region "${region}" for platform digitalocean. valid regions are: ${DigitalOceanAppPlatformRegionIds.join(', ')}`)
         }
       }
 
