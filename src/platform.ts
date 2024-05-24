@@ -1,4 +1,4 @@
-import { EnvLike, PlatformName, RailwayRegionIds } from "./types"
+import { DigitalOceanRegionIds, EnvLike, PlatformName, RailwayRegionIds } from "./types"
 
 export function getPlatformUtils (env: EnvLike) {
   return {
@@ -14,7 +14,8 @@ export function getPlatformUtils (env: EnvLike) {
         const {
           VERCEL_ENV, VERCEL_REGION,
           FLY_REGION, FLY_ALLOC_ID,
-          RAILWAY_PROJECT_NAME
+          RAILWAY_PROJECT_NAME,
+          NQB_DO_REGION
         } = env
 
         if (VERCEL_ENV && VERCEL_REGION) {
@@ -23,6 +24,8 @@ export function getPlatformUtils (env: EnvLike) {
           return 'fly'
         } else if (RAILWAY_PROJECT_NAME) {
           return 'railway'
+        } else if (NQB_DO_REGION) {
+          return 'digitalocean'
         } else {
           throw new Error('unable to determine hosting platform from environment')
         }
@@ -51,7 +54,8 @@ export function getPlatformUtils (env: EnvLike) {
       const regionEnvMap = {
         'vercel': 'VERCEL_REGION',
         'fly': 'FLY_REGION',
-        'railway': 'NQB_RAILWAY_REGION'
+        'railway': 'NQB_RAILWAY_REGION',
+        'digitalocean': 'NQB_DO_REGION'
       }
 
       const targetVariable = regionEnvMap[platformName]
@@ -71,6 +75,14 @@ export function getPlatformUtils (env: EnvLike) {
           return region
         } else {
           throw new Error(`invalid region "${region}" for platform railway. valid regions are: ${RailwayRegionIds.join(', ')}`)
+        }
+      }
+
+      if (platformName === 'digitalocean') {
+        if (DigitalOceanRegionIds.includes(region)) {
+          return region
+        } else {
+          throw new Error(`invalid region "${region}" for platform digitalocean. valid regions are: ${DigitalOceanRegionIds.join(', ')}`)
         }
       }
 

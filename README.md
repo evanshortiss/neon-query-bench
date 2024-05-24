@@ -16,10 +16,11 @@ You now have a Neon database that `neon-query-bench` can be run against.
 
 ## Usage
 
-Note, if you're deploying the module on Railway you need to set the
-`NQB_RAILWAY_REGION` to one of the values listed on their deployment
-[regions page](https://docs.railway.app/reference/deployment-regions#region-options),
-since it's not automatically injected into a runtime environment variable.
+Note, if you're deploying the module on Railway or DigitalOcean you need to
+manually set one of these variables:
+
+* `NQB_RAILWAY_REGION` - Use one of the values listed on Railway's [deployment regions page](https://docs.railway.app/reference/deployment-regions#region-options), e.g `us-west4`
+* `NQB_DO_REGION` - Use a a slug from Digital Ocean's [regional availability page](https://docs.digitalocean.com/platform/regional-availability/), e.g `nyc1`.
 
 ### Via Container Image
 

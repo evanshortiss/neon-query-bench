@@ -78,4 +78,30 @@ describe('getPlatformUtils', () => {
       assert(e.message.includes(`invalid region "${NQB_RAILWAY_REGION}" for platform railway`))
     }
   })
+
+  describe('digitalocean', () => {
+    it('should return the railway region', () => {
+      const NQB_DO_REGION = 'nyc1'
+      const utils = getPlatformUtils({
+        NQB_DO_REGION
+      })
+  
+      assert(utils.getPlatformRegion() === NQB_DO_REGION)
+    })
+  
+    it('should throw an error due to invalid digital ocean region id', () => {
+      const NQB_DO_REGION = 'dub1' // this is not a valid region id
+      const utils = getPlatformUtils({
+        NQB_DO_REGION
+      })
+  
+      try {
+        const name = utils.getPlatformRegion()
+        fail('an error should have been thrown')
+      } catch (e) {
+        assert(e instanceof Error)
+        assert(e.message.includes(`invalid region "${NQB_DO_REGION}" for platform digitalocean`))
+      }
+    })
+  })
 })
