@@ -10,7 +10,7 @@ describe('module', () => {
       VERCEL_REGION: 'iad1',
       // Module specific environment variables
       NQB_API_KEY: 'foo',
-      NQB_DATABASE_URL: 'postgres://localhost:5432'
+      NQB_DATABASE_URL: 'postgres://user:pass@localhost:5432'
     }
     
     const {
