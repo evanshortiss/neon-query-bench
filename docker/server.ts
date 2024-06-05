@@ -1,6 +1,12 @@
 import fastify from 'fastify';
 import nqb, { QueryRunnerMetadata } from 'neon-query-bench'
 
+['SIGINT', 'SIGTERM'].forEach(signal => {
+  process.on(signal, () => {
+    process.exit(0)
+  })
+})
+
 const server = fastify({
   logger: {
     level: process.env.LOG_LEVEL || 'info',
