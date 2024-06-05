@@ -1,6 +1,6 @@
 {
   "name": "neon-query-bench",
-  "version": "0.6.2-beta.0",
+  "version": "0.6.2-beta.1",
   "description": "A pre-packaged benchmark runner for Neon",
   "main": "build/index.js",
   "scripts": {
@@ -19,7 +19,8 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.9.3",
     "drizzle-orm": "~0.29.1",
-    "env-var": "~7.4.1"
+    "env-var": "~7.4.1",
+    "ws": "^8.17.0"
   },
   "devDependencies": {
     "@faker-js/faker": "~8.3.1",
