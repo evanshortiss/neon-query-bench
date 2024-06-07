@@ -1,17 +1,12 @@
-import { neon, neonConfig, Pool } from "@neondatabase/serverless";
-import { drizzle as drizzleHttp } from "drizzle-orm/neon-http";
-import { drizzle as drizzleWs } from "drizzle-orm/neon-serverless";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
 export type DatabaseWrapper = Awaited<ReturnType<typeof getDatabaseWrapper>>;
 
-export default function getDatabaseWrapper(connectionString: string, mode: "http" | "ws") {
-  if (mode === "ws") {
-    neonConfig.webSocketConstructor = require("ws");
-    const client = new Pool({ connectionString });
-    return drizzleWs(client, { schema, logger: true });
-  } else {
-    const sql = neon(connectionString);
-    return drizzleHttp(sql, { schema, logger: true });
-  }
+export default function getDatabaseWrapper(dbUrl: string) {
+  const sql = neon(dbUrl);
+  const db = drizzle(sql, { schema });
+
+  return db;
 }

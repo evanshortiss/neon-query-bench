@@ -17,7 +17,7 @@
   "dependencies": {
     "barelog": "0.2.0",
     "fastify": "4.27.0",
-    "neon-query-bench": "0.6.2-beta.2"
+    "neon-query-bench": "0.6.1"
   },
   "devDependencies": {
     "@types/node": "^18.19.3",

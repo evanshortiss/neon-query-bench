@@ -24,5 +24,4 @@ test('integration test (requires a database connection string)', async (t) => {
 
   assert(typeof neonRegion === 'string')
   assert(queryTimes.length === 10)
-  console.log(queryTimes.map(({ start, end }) => end - start))
 })

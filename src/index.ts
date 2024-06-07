@@ -1,5 +1,4 @@
 import { getConfig } from "./config";
-import getDatabaseWrapper from "./db";
 import { getPlatformUtils } from "./platform";
 import { getQueryRunner } from "./query";
 import { EnvLike } from "./types";
@@ -13,11 +12,8 @@ export default function getBenchmarkInstance (env: EnvLike) {
   }
   const neonRegion = new URL(config.DATABASE_URL).hostname.split(/\.([^]*)/)[1];
   const platform = getPlatformUtils(env)
+  const runner = getQueryRunner(config)
 
-  const runner = getQueryRunner(
-    config,
-    getDatabaseWrapper(config.DATABASE_URL, platform.getPlatformName() === 'vercel' ? 'http' : 'ws')
-  )
 
   return {
     platform, runner, version, neonRegion

@@ -2,7 +2,7 @@ import getDatabaseWrapper from "./db";
 import { User } from "./schema";
 import { ApplicationConfig, QueryRunnerResult } from "./types";
 
-export function getQueryRunner(config: ApplicationConfig, db: ReturnType<typeof getDatabaseWrapper>) {
+export function getQueryRunner(config: ApplicationConfig) {
   return async function performQueries(params?: {
     apiKey?: string,
     count?: number
@@ -12,6 +12,8 @@ export function getQueryRunner(config: ApplicationConfig, db: ReturnType<typeof 
     if (config.API_KEY && apiKey !== config.API_KEY) {
       throw new Error('provided api key does not match configured API_KEY')
     }
+
+    const db = getDatabaseWrapper(config.DATABASE_URL);
     const queryTimes = await runBenchmark(db, count);
 
     return { queryTimes };
